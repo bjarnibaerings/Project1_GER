@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="project1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/project1/kiosk.jar!/" />
+      <root url="jar://$PROJECT_DIR$/project1/chesslikesim.jar!/" />
+      <root url="jar://$PROJECT_DIR$/project1/gamecontroller-cli.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

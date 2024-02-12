@@ -43,36 +43,31 @@ public class Environment {
         // Two steps forward and one step left/right
         if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
-            if (x > 0 && state.board[y+two_steps][x-1] == EMPTY) {
-                moves.add(new Move(x, y, x-1, y + two_steps));
+            if (x > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
+                moves.add(new Move(x, y, x - 1, y + two_steps));
             }
             // Right step
-            if (x < this.width-1 && state.board[y+two_steps][x+1] == EMPTY) {
-                moves.add(new Move(x, y, x+1, y+two_steps));
+            if (x < this.width - 1 && state.board[y + two_steps][x + 1] == EMPTY) {
+                moves.add(new Move(x, y, x + 1, y + two_steps));
             }
         }
 
         // One step forward and two steps left/right
 
         if (can_move_right(x)) {
-            if (x+2 < this.width-1 && state.board[y+one_step][x+2] == EMPTY) {
-                System.err.println("ADDED MOVE RIGHT");
+            if (x <= this.width-2 && state.board[y+one_step][x+2] == EMPTY) {
+                System.err.println("ADDED MOVE RIGHT UPPER");
                 moves.add(new Move(x, y, x+2, y+one_step));
-            }
-            if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
-                System.err.println("ADDED MOVE RIGHT");
-                moves.add(new Move(x, y, x-2, y+one_step));
-
             }
         }
 
         if (can_move_left(x)) {
-            if (y > 0 && state.board[y+one_step][x-2] == EMPTY) {
-                System.err.println("ADDED MOVE LEFT");
-                moves.add(new Move(x, y, x-2, y+one_step));
-            }
-            if (y < this.height-1 && state.board[y+one_step][x-2] == EMPTY) {
-                System.err.println("ADDED MOVE LEFT");
+            System.err.println(this.width);
+            System.err.println(x);
+
+            // TODO: fix the 0 error
+            if (x-2 >= 0 && state.board[y+one_step][x-2] == EMPTY) {
+                System.err.println("ADDED MOVE LEFT UPPER");
                 moves.add(new Move(x, y, x-2, y+one_step));
             }
         }

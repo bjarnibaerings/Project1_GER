@@ -12,7 +12,7 @@ public class Main {
 
 			Environment env = new Environment(7, 7);
 			System.out.println(env.current_state);
-			env.move(env.current_state, new Move(0, 0, 4, 4));
+			env.move(env.current_state, new Move(1, 1, 0, 3));
 			System.out.println(env.current_state);
 
 			ArrayList<Move> moves = env.get_legal_moves(env.current_state);

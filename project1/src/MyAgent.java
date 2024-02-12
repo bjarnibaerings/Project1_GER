@@ -47,8 +47,9 @@ public class MyAgent implements Agent {
 
 			// Here we just construct a random move (that will most likely not even be possible),
 			// this needs to be replaced with the actual best move.
-			Move best_move = get_best_move();
-			return "(move " + (best_move.x1 +1) + " " + (best_move.y1 + 1) + " " + (best_move.x2 +1) + " " + (best_move.y2 +1) + ")";
+			//Move best_move = get_best_move();
+			//return "(move " + (best_move.x1 +1) + " " + (best_move.y1 + 1) + " " + (best_move.x2 +1) + " " + (best_move.y2 +1) + ")";
+			return "(move 1 1 2 3)";
 		} else {
 			return "noop";
 		}

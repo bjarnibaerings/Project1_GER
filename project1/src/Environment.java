@@ -25,31 +25,28 @@ public class Environment {
         return false;
     }
 
-    private boolean can_move_right(State state, int x){
-        if (x <= this.width-3) {
-            return true;
-        }
-        return false;
+    private boolean can_move_right(int x){
+        // TODO: does -3 even work???
+        return x <= this.width - 3;
     }
 
-    private boolean can_move_left(State state, int x){
-        if (x >= 2) {
-            return true;
-        }
-        return false;
+    private boolean can_move_left(int x){
+        return x >= 2;
     }
 
     private void get_moves(State state, ArrayList<Move> moves, int y, int x){
         char opponent = state.white_turn ? BLACK : WHITE;
+        // Set the step variables, > 0 for white and < 0 for black
         int one_step = state.white_turn ? 1 : -1;
         int two_steps = state.white_turn ? 2 : -2;
 
         // Two steps forward and one step left/right
         if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
+            // Left step
             if (x > 0 && state.board[y+two_steps][x-1] == EMPTY) {
                 moves.add(new Move(x, y, x-1, y + two_steps));
             }
-
+            // Right step
             if (x < this.width-1 && state.board[y+two_steps][x+1] == EMPTY) {
                 moves.add(new Move(x, y, x+1, y+two_steps));
             }
@@ -57,14 +54,19 @@ public class Environment {
 
         // One step forward and two steps left/right
 
-        if (can_move_right(state, x)) {
-            if (state.board[y+one_step][x+2] == EMPTY) {
+        if (can_move_right(x)) {
+            if (x+2 < this.width-1 && state.board[y+one_step][x+2] == EMPTY) {
                 System.err.println("ADDED MOVE RIGHT");
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
+            if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
+                System.err.println("ADDED MOVE RIGHT");
+                moves.add(new Move(x, y, x-2, y+one_step));
+
+            }
         }
 
-        if (can_move_left(state, x)) {
+        if (can_move_left(x)) {
             if (y > 0 && state.board[y+one_step][x-2] == EMPTY) {
                 System.err.println("ADDED MOVE LEFT");
                 moves.add(new Move(x, y, x-2, y+one_step));
@@ -76,25 +78,26 @@ public class Environment {
         }
 
         // Diagonal (capture) is opponent there ?
-
-
-        /*if (state.board[y+one_step][x+1] == opponent) {
+        // Diagonal right
+        // TODO: Check whether move is in bounds STARTS AT (1,1)
+        if (x+1 <= this.width - 1 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
             System.err.println("ADDED DIAGONAL RIGHT");
             moves.add(new Move(x, y, x+1, y+one_step));
         }
 
-        if (state.board[y+one_step][x-1] == opponent) {
+        // Diagonal left
+        if (x-1 > 0 && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
             System.err.println("ADDED DIAGONAL LEFT");
             moves.add(new Move(x, y, x-1, y+one_step));
-        }*/
+        }
     }
 
     public ArrayList<Move> get_legal_moves(State state){
         ArrayList<Move> moves = new ArrayList<>();
         char friendly = state.white_turn ? WHITE : BLACK;
 
-        for(int y = 0; y < this.height; y++){
-            for(int x = 0; x < this.width; x++){
+        for(int y = 1; y < this.height; y++){
+            for(int x = 1; x < this.width; x++){
                 if (state.board[y][x] == friendly) {
                     get_moves(state, moves, y, x);
                 }
@@ -113,9 +116,11 @@ public class Environment {
 
     private boolean was_diagonal_move(Move move){
         // diagonal like a pawn in chess
+        // Was diagonal right
         if (move.y2 -1 == move.y1 && move.x2 -1 == move.x1) {
             return true;
         }
+        // Was diagonal left
         if (move.y2 +1 == move.y1 && move.x2 -1 == move.x1) {
             return true;
         }

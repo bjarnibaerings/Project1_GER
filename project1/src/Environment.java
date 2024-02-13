@@ -41,7 +41,7 @@ public class Environment {
         int two_steps = state.white_turn ? 2 : -2;
 
         // Two steps forward and one step left/right
-        if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
+         if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
             if (x > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
                 moves.add(new Move(x, y, x - 1, y + two_steps));
@@ -55,6 +55,8 @@ public class Environment {
         // One step forward and two steps left/right
 
         if (can_move_right(x)) {
+            System.err.println(this.width);
+            System.err.println(x);
             if (x <= this.width-2 && state.board[y+one_step][x+2] == EMPTY) {
                 System.err.println("ADDED MOVE RIGHT UPPER");
                 moves.add(new Move(x, y, x+2, y+one_step));
@@ -66,7 +68,7 @@ public class Environment {
             System.err.println(x);
 
             // TODO: fix the 0 error
-            if (x-2 >= 0 && state.board[y+one_step][x-2] == EMPTY) {
+            if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
                 System.err.println("ADDED MOVE LEFT UPPER");
                 moves.add(new Move(x, y, x-2, y+one_step));
             }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MyAgent implements Agent {
@@ -44,12 +45,18 @@ public class MyAgent implements Agent {
 		myTurn = !myTurn;
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
-
+			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
+			Move firstMove = moves.getFirst();
 			// Here we just construct a random move (that will most likely not even be possible),
 			// this needs to be replaced with the actual best move.
-			//Move best_move = get_best_move();
+			// Move best_move = get_best_move();
 			//return "(move " + (best_move.x1 +1) + " " + (best_move.y1 + 1) + " " + (best_move.x2 +1) + " " + (best_move.y2 +1) + ")";
-			return "(move 1 1 2 3)";
+//			System.out.println(moves);
+//			System.out.println("\n\n");
+//			System.out.println(firstMove);
+//			System.out.println("\n\n");
+			this.env.move(this.env.current_state, firstMove);
+			return firstMove.toString();
 		} else {
 			return "noop";
 		}

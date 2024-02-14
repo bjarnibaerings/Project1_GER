@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args){
 		try{
 			// TODO: put in your agent here
-			/*
+			
 			Environment env = new Environment(7, 7);
 			System.out.println(env.current_state);
 			env.move(env.current_state, new Move(1, 1, 0, 3));
@@ -20,7 +20,7 @@ public class Main {
 			for(Move move : moves){
 				System.out.println(move);
 			}
-			*/
+			
 			//Agent agent = new RandomAgent();
 			Agent agent = new MyAgent();
 

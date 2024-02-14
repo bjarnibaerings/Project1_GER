@@ -46,7 +46,7 @@ public class MyAgent implements Agent {
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
 			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
-			Move firstMove = moves.getFirst();
+			Move firstMove = moves.get(0);
 			// Here we just construct a random move (that will most likely not even be possible),
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();

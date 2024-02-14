@@ -6,12 +6,29 @@ public class Environment {
     static final char BLACK = 'B';
     static final char WHITE = 'W';
     static final char EMPTY = ' ';
+    int most_advanced_white = 0;
+    int most_advanced_black = height;
 
     // Constructer
     public Environment(int width, int height){
         this.width = width;
         this.height = height;
         this.current_state = new State(width, height);
+    }
+
+    // heristic function
+    private int heruistic(){
+        // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
+        if (most_advanced_white == height-1) {
+            return 100;
+        }
+        if (most_advanced_black == 1) {
+            return -100;
+        }
+        // make if draw state ment???
+
+        // terminal state
+       return ((most_advanced_black-1)-(height-most_advanced_white));
     }
 
 
@@ -47,6 +64,13 @@ public class Environment {
 //                System.err.println("ADDED MOVE 2 FORWARD 1 LEFT");
 //                System.err.println((new Move(x, y, x - 1, y + two_steps)));
                 moves.add(new Move(x, y, x - 1, y + two_steps));
+//              Check is new move is most advanced
+                if (state.white_turn && most_advanced_white < y+two_steps) {
+                    most_advanced_white = y+two_steps;
+                }
+                else if (!state.white_turn && most_advanced_black > y+two_steps) {
+                    most_advanced_black = y+two_steps;
+                }
             }
             // Right step
             if (x < this.width - 1 && state.board[y + two_steps][x + 1] == EMPTY) {
@@ -66,6 +90,13 @@ public class Environment {
 //                System.err.println((new Move(x, y, x+2, y+one_step)));
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
+//              Check is new move is most advanced
+            if (state.white_turn && most_advanced_white < y+two_steps) {
+                most_advanced_white = y+two_steps;
+            }
+            else if (!state.white_turn && most_advanced_black > y+two_steps) {
+                most_advanced_black = y+two_steps;
+            }
         }
 
         if (can_move_left(x)) {
@@ -78,6 +109,13 @@ public class Environment {
 //                System.err.println((new Move(x, y, x-2, y+one_step)));
                 moves.add(new Move(x, y, x-2, y+one_step));
             }
+//              Check is new move is most advanced
+            if (state.white_turn && most_advanced_white < y+two_steps) {
+                most_advanced_white = y+two_steps;
+            }
+            else if (!state.white_turn && most_advanced_black > y+two_steps) {
+                most_advanced_black = y+two_steps;
+            }
         }
 
         // Diagonal (capture) is opponent there ?
@@ -87,6 +125,13 @@ public class Environment {
 //            System.err.println("ADDED DIAGONAL RIGHT");
 //            System.err.println((new Move(x, y, x+1, y+one_step)));
             moves.add(new Move(x, y, x+1, y+one_step));
+//              Check is new move is most advanced
+            if (state.white_turn && most_advanced_white < y+two_steps) {
+                most_advanced_white = y+two_steps;
+            }
+            else if (!state.white_turn && most_advanced_black > y+two_steps) {
+                most_advanced_black = y+two_steps;
+            }
         }
 
         // Diagonal left
@@ -94,6 +139,13 @@ public class Environment {
 //            System.err.println("ADDED DIAGONAL LEFT");
 //            System.err.println((new Move(x, y, x-1, y+one_step)));
             moves.add(new Move(x, y, x-1, y+one_step));
+//              Check is new move is most advanced
+            if (state.white_turn && most_advanced_white < y+two_steps) {
+                most_advanced_white = y+two_steps;
+            }
+            else if (!state.white_turn && most_advanced_black > y+two_steps) {
+                most_advanced_black = y+two_steps;
+            }
         }
     }
 

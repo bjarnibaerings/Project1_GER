@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MyAgent implements Agent {
 
@@ -37,7 +36,8 @@ public class MyAgent implements Agent {
     		}
    			System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
     		// TODO: 1. update your internal world model according to the action that was just executed
-			this.env.move(this.env.current_state, new Move(x1-1, y1-1, x2-1, y2-1));
+			// sub() removes 0 to convert move from Boardspace to ProgramSpace
+			this.env.move(this.env.current_state, new Move(x1, y1, x2, y2).sub());
     		
     	}
 		
@@ -46,16 +46,11 @@ public class MyAgent implements Agent {
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
 			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
-			Move firstMove = moves.get(0);
-			// Here we just construct a random move (that will most likely not even be possible),
+			Move firstMove = moves.getFirst();
+			firstMove.add();
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
-			//return "(move " + (best_move.x1 +1) + " " + (best_move.y1 + 1) + " " + (best_move.x2 +1) + " " + (best_move.y2 +1) + ")";
-//			System.out.println(moves);
-//			System.out.println("\n\n");
-//			System.out.println(firstMove);
-//			System.out.println("\n\n");
-			this.env.move(this.env.current_state, firstMove);
+			System.out.println(this.env.current_state);
 			return firstMove.toString();
 		} else {
 			return "noop";

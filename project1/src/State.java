@@ -19,9 +19,9 @@ public class State{
 
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
-                if(i < 2)
+                if(i < 2) // First 2 rows
                     this.board[i][j] = WHITE;
-                else if (i > height-3)
+                else if (i > height-3) // Last 2 rows (-3 since arr.len is height - 1)
                     this.board[i][j] = BLACK;
                 else
                     this.board[i][j] = EMPTY;

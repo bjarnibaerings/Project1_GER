@@ -26,6 +26,7 @@ public class Environment {
     }
 
     private boolean can_move_right(int x){
+        // TODO: does -3 even work???
         return x <= this.width - 3;
     }
 
@@ -42,7 +43,7 @@ public class Environment {
         // Two steps forward and one step left/right
          if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
-            if (x - 1 > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
+            if (x > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
                 moves.add(new Move(x, y, x - 1, y + two_steps));
             }
             // Right step
@@ -63,10 +64,12 @@ public class Environment {
         }
 
         if (can_move_left(x)) {
+            System.err.println(this.width);
+            System.err.println(x);
+
             // TODO: fix the 0 error
             if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
                 System.err.println("ADDED MOVE LEFT UPPER");
-//                System.err.println(x, y, x-2, y+one_step);
                 moves.add(new Move(x, y, x-2, y+one_step));
             }
         }

@@ -8,6 +8,22 @@ public class Move {
         this.y2 = y2;
     }
 
+    public Move add() {
+        this.x1 += 1;
+        this.y1 += 1;
+        this.x2 += 1;
+        this.y2 += 1;
+        return this;
+    }
+
+    public Move sub() {
+        this.x1 -= 1;
+        this.y1 -= 1;
+        this.x2 -= 1;
+        this.y2 -= 1;
+        return this;
+    }
+
     public String toString(){
         return "(move " + this.x1 + " " + this.y1 + " " + this.x2 + " " + this.y2 +")"; 
     }

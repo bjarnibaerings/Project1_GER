@@ -43,11 +43,15 @@ public class Environment {
         // Two steps forward and one step left/right
          if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
-            if (x > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
+            if (x - 1 > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
+                System.err.println("ADDED MOVE 2 FORWARD 1 LEFT");
+                System.err.println((new Move(x, y, x - 1, y + two_steps)));
                 moves.add(new Move(x, y, x - 1, y + two_steps));
             }
             // Right step
             if (x < this.width - 1 && state.board[y + two_steps][x + 1] == EMPTY) {
+                System.err.println("ADDED MOVE 2 FORWARD 1 RIGHT");
+                System.err.println((new Move(x, y, x + 1, y + two_steps)));
                 moves.add(new Move(x, y, x + 1, y + two_steps));
             }
         }
@@ -58,7 +62,8 @@ public class Environment {
             System.err.println(this.width);
             System.err.println(x);
             if (x <= this.width-2 && state.board[y+one_step][x+2] == EMPTY) {
-                System.err.println("ADDED MOVE RIGHT UPPER");
+                System.err.println("ADDED MOVE 2 RIGHT 1 FORWARD");
+                System.err.println((new Move(x, y, x+2, y+one_step)));
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
         }
@@ -69,7 +74,8 @@ public class Environment {
 
             // TODO: fix the 0 error
             if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
-                System.err.println("ADDED MOVE LEFT UPPER");
+                System.err.println("ADDED MOVE 2 LEFT 1 FORWARD");
+                System.err.println((new Move(x, y, x-2, y+one_step)));
                 moves.add(new Move(x, y, x-2, y+one_step));
             }
         }
@@ -79,12 +85,14 @@ public class Environment {
         // TODO: Check whether move is in bounds STARTS AT (1,1)
         if (x+1 <= this.width - 1 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
             System.err.println("ADDED DIAGONAL RIGHT");
+            System.err.println((new Move(x, y, x+1, y+one_step)));
             moves.add(new Move(x, y, x+1, y+one_step));
         }
 
         // Diagonal left
         if (x-1 > 0 && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
             System.err.println("ADDED DIAGONAL LEFT");
+            System.err.println((new Move(x, y, x-1, y+one_step)));
             moves.add(new Move(x, y, x-1, y+one_step));
         }
     }
@@ -93,6 +101,7 @@ public class Environment {
         ArrayList<Move> moves = new ArrayList<>();
         char friendly = state.white_turn ? WHITE : BLACK;
 
+        // TODO: We changed y=x=0 to y=x=1
         for(int y = 1; y < this.height; y++){
             for(int x = 1; x < this.width; x++){
                 if (state.board[y][x] == friendly) {

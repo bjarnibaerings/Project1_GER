@@ -17,7 +17,7 @@ public class Environment {
     }
 
     // heristic function
-    private int heruistic(){
+    public int heruistic(){
         // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         if (most_advanced_white == height-1) {
             return 100;
@@ -83,8 +83,8 @@ public class Environment {
         // One step forward and two steps left/right
 
         if (can_move_right(x)) {
-            System.err.println(this.width);
-            System.err.println(x);
+            //System.err.println(this.width);
+            //System.err.println(x);
             if (x <= this.width-2 && state.board[y+one_step][x+2] == EMPTY) {
 //                System.err.println("ADDED MOVE 2 RIGHT 1 FORWARD");
 //                System.err.println((new Move(x, y, x+2, y+one_step)));
@@ -100,8 +100,8 @@ public class Environment {
         }
 
         if (can_move_left(x)) {
-            System.err.println(this.width);
-            System.err.println(x);
+            //System.err.println(this.width);
+            //System.err.println(x);
 
             // TODO: fix the 0 error
             if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {

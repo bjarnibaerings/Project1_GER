@@ -4,7 +4,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     private Heuristics heuristic;
     private Environment env;
 //    public Move bestMove;
-    public int nb_expansions;
+    public int nb_expansions = 0;
 
     public void init(Heuristics heuristic) {
         this.heuristic = heuristic;
@@ -12,8 +12,9 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
     public Move search(Environment env) {
         this.env = env;
-        MoveValuePair bestMovePair = alpha_beta(20, this.env.current_state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        MoveValuePair bestMovePair = alpha_beta(10, this.env.current_state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
         System.err.println(bestMovePair.value + " : " + bestMovePair.move);
+        System.err.println("Expansions: " + this.nb_expansions);
 
         return bestMovePair.move;
     }
@@ -47,10 +48,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
             this.env.move(state, m);
             // Switch and negate bounds when moving into depth of next move
             mvp = alpha_beta(depth - 1, state, -beta, -alpha).negate();
-            if (mvp.move == null) {
-                System.err.println("HERA I AM" + m);
-                mvp.move = m;
-            }
+            mvp.move = m;
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
             this.env.undo_move(state, m);
@@ -74,6 +72,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 //        best_value = Math.max(value, best_value);
         mvp.value = best_value;
         mvp.move = bestMove;
+//        System.err.println("In abcx " + mvp.value + " : " + mvp.move);
         return mvp;
     }
 }

@@ -56,8 +56,9 @@ public class MyAgent implements Agent {
 			Move firstMove = moves.get(0);
 			firstMove.add();
 
-			//Move bestMove;
-			//algorithm.search(this.env);
+			// Get best move
+			Move bestMove;
+			algorithm.search(this.env);
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
 			System.out.println(this.env.current_state);

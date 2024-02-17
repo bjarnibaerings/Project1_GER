@@ -6,8 +6,8 @@ public class Environment {
     static final char BLACK = 'B';
     static final char WHITE = 'W';
     static final char EMPTY = ' ';
-    int most_advanced_white = 0;
-    int most_advanced_black = height;
+    int most_advanced_white = 1; // Second row of white
+    int most_advanced_black = height - 2; // Second row of black
 
     // Constructor
     public Environment(int width, int height){

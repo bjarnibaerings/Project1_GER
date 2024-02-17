@@ -47,16 +47,17 @@ public class AlphaBetaSearch implements SearchAlgorithm{
             // Perform the move on the state to check successor nodes
             this.env.move(state, m);
             // Switch and negate bounds when moving into depth of next move
-            mvp = alpha_beta(depth - 1, state, -beta, -alpha).negate();
-            mvp.move = m;
+            mvp = alpha_beta(depth - 1, state, -beta, -alpha);
+            mvp.value = -mvp.value;
+
+            this.env.undo_move(state, m);
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
-            this.env.undo_move(state, m);
 
-            if (value > best_value) {
+            if (mvp.value > best_value) {
 //              best_value = Math.max(value, best_value);
                 // Update the best value and the best move
-                best_value = value;
+                best_value = mvp.value;
                 bestMove = m;
 
             }
@@ -66,10 +67,9 @@ public class AlphaBetaSearch implements SearchAlgorithm{
                 // Beta cutoff (Alpha beta pruning)
                 if (alpha >= beta) break;
             }
+
         }
 
-        // TODO: might be buggy
-//        best_value = Math.max(value, best_value);
         mvp.value = best_value;
         mvp.move = bestMove;
 //        System.err.println("In abcx " + mvp.value + " : " + mvp.move);

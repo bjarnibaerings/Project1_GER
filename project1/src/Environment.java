@@ -69,7 +69,7 @@ public class Environment {
 
         // Diagonal (capture) is opponent there ?
         // Diagonal right
-        if (x+1 < this.width - 1 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
+        if (x+1 < this.width - 1 && y+one_step > 0 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
             moves.add(new Move(x, y, x+1, y+one_step));
 //              Check is new move is most advanced
             if (state.white_turn && most_advanced_white < y+one_step) {
@@ -80,7 +80,7 @@ public class Environment {
             }
         }
         // Diagonal left
-        if (x-1 > 0 && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
+        if (x-1 > 0 && y+one_step > 0  && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
             moves.add(new Move(x, y, x-1, y+one_step));
 //              Check is new move is most advanced
             if (state.white_turn && most_advanced_white < y+one_step) {
@@ -95,7 +95,7 @@ public class Environment {
         // Two steps forward and one step left/right
          if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
-            if (x - 1 > 0 && state.board[y + two_steps][x - 1] == EMPTY) {
+            if (x - 1 > 0 && y+one_step > 0  && y+one_step < this.height-1 && state.board[y + two_steps][x - 1] == EMPTY) {
                 moves.add(new Move(x, y, x - 1, y + two_steps));
 //              Check is new move is most advanced
                 if (state.white_turn && most_advanced_white < y+two_steps) {
@@ -106,7 +106,7 @@ public class Environment {
                 }
             }
             // Right step
-            if (x < this.width - 1 && state.board[y + two_steps][x + 1] == EMPTY) {
+            if (x < this.width - 1 && y+one_step > 0  && y+one_step < this.height-1 && state.board[y + two_steps][x + 1] == EMPTY) {
                 moves.add(new Move(x, y, x + 1, y + two_steps));
             }
         }
@@ -116,7 +116,7 @@ public class Environment {
         if (can_move_right(x)) {
             //System.err.println(this.width);
             //System.err.println(x);
-            if (x <= this.width-2 && state.board[y+one_step][x+2] == EMPTY) {
+            if (x <= this.width-2 && y+one_step >= 0 && y+one_step < this.height-1 && state.board[y+one_step][x+2] == EMPTY) {
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
 //              Check is new move is most advanced
@@ -132,7 +132,7 @@ public class Environment {
             //System.err.println(this.width);
             //System.err.println(x);
 
-            if (x-2 > 0 && state.board[y+one_step][x-2] == EMPTY) {
+            if (x-2 > 0 && y+one_step > 0 && y+one_step < this.height-1 && state.board[y+one_step][x-2] == EMPTY) {
                 moves.add(new Move(x, y, x-2, y+one_step));
             }
 //              Check is new move is most advanced

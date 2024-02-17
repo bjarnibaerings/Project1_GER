@@ -52,19 +52,17 @@ public class MyAgent implements Agent {
 		myTurn = !myTurn;
 		if (myTurn) {
 			// TODO: 2. run alpha-beta search to determine the best move
-			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
-			Move firstMove = moves.get(0);
-			firstMove.add();
+//			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
+//			Move firstMove = moves.get(0);
+//			firstMove.add();
 
 			// Get best move
-			Move bestMove;
-			algorithm.search(this.env);
+			Move bestMove = algorithm.search(this.env);
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
-			System.out.println(this.env.current_state);
-			System.out.println("HERUSITIC");
-			System.out.println(this.env.heruistic());
-			return firstMove.toString();
+//			System.out.println(this.env.current_state);
+//			System.out.println(this.env.heruistic());
+			return bestMove.toString();
 		} else {
 			return "noop";
 		}

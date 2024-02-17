@@ -9,9 +9,10 @@ public class AlphaBetaSearch implements SearchAlgorithm{
         this.heuristic = heuristic;
     }
 
-    public double search(Environment env) {
+    public Move search(Environment env) {
         this.env = env;
-        return alpha_beta(10, this.env.current_state, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        MoveValuePair bestMovePair = alpha_beta(100, this.env.current_state, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        return bestMovePair.move;
     }
 
 
@@ -19,16 +20,20 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     // Finds the best move for each player by utilizing the Minimax algorithm in
     // conjunction with alpha-beta pruning.
     //
-    private double alpha_beta(int depth, State state, double alpha, double beta) {
+    private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta) {
         // TODO: Store the best move to return
+        double value = 0;
+        Move bestMove = null;
+        MoveValuePair mvp = new MoveValuePair(bestMove, value);
+
         if (depth <= 0) {
-            return this.heuristic.eval(state);
+            value = this.heuristic.eval(state, this.env);
+            return mvp;
         }
+
         double best_value = Double.NEGATIVE_INFINITY;
         // Initialize value as 0 since a draw state is reached if there are no moves to check
         // (and value would never get reassigned)
-        double value = 0;
-        Move bestMove = null;
 
         System.out.println("Currently on depth: " + depth);
         for (Move m : this.env.get_legal_moves(state)) {
@@ -36,7 +41,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
             // Perform the move on the state to check successor nodes
             this.env.move(state, m);
             // Switch and negate bounds when moving into depth of next move
-            value = -alpha_beta(depth - 1, state, -beta, -alpha);
+            value = -alpha_beta(depth - 1, state, -beta, -alpha).value;
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
             this.env.undo_move(state, m);
@@ -55,8 +60,11 @@ public class AlphaBetaSearch implements SearchAlgorithm{
                 if (alpha >= beta) break;
             }
         }
+
         // TODO: might be buggy
-        best_value = Math.max(value, best_value);
-        return best_value;
+//        best_value = Math.max(value, best_value);
+        mvp.value = best_value;
+        mvp.move = bestMove;
+        return mvp;
     }
 }

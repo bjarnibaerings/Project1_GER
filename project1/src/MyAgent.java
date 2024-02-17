@@ -58,6 +58,7 @@ public class MyAgent implements Agent {
 
 			// Get best move
 			Move bestMove = algorithm.search(this.env);
+
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
 //			System.out.println(this.env.current_state);
@@ -74,5 +75,6 @@ public class MyAgent implements Agent {
 		// TODO: cleanup so that the agent is ready for the next match
 		this.env = null;
 		this.algorithm = null;
+
 	}
 }

@@ -7,4 +7,8 @@ public class MoveValuePair {
         this.value = value;
     }
 
+    public MoveValuePair negate() {
+        this.value = -this.value;
+        return this;
+    }
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class AlphaBetaSearch implements SearchAlgorithm{
     private Heuristics heuristic;
@@ -11,7 +12,9 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
     public Move search(Environment env) {
         this.env = env;
-        MoveValuePair bestMovePair = alpha_beta(100, this.env.current_state, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+        MoveValuePair bestMovePair = alpha_beta(20, this.env.current_state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        System.err.println(bestMovePair.value + " : " + bestMovePair.move);
+
         return bestMovePair.move;
     }
 
@@ -23,11 +26,13 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta) {
         // TODO: Store the best move to return
         double value = 0;
+        ArrayList<Move> legalMoves = this.env.get_legal_moves(state);
         Move bestMove = null;
         MoveValuePair mvp = new MoveValuePair(bestMove, value);
 
-        if (depth <= 0) {
-            value = this.heuristic.eval(state, this.env);
+        if (depth <= 0 || legalMoves.isEmpty()) {
+            mvp.value = this.heuristic.eval(state, this.env);
+//            System.err.println(mvp.value + " : " + mvp.move);
             return mvp;
         }
 
@@ -35,13 +40,17 @@ public class AlphaBetaSearch implements SearchAlgorithm{
         // Initialize value as 0 since a draw state is reached if there are no moves to check
         // (and value would never get reassigned)
 
-        System.out.println("Currently on depth: " + depth);
-        for (Move m : this.env.get_legal_moves(state)) {
+//        System.out.println("Currently on depth: " + depth);
+        for (Move m : legalMoves) {
             this.nb_expansions++;
             // Perform the move on the state to check successor nodes
             this.env.move(state, m);
             // Switch and negate bounds when moving into depth of next move
-            value = -alpha_beta(depth - 1, state, -beta, -alpha).value;
+            mvp = alpha_beta(depth - 1, state, -beta, -alpha).negate();
+            if (mvp.move == null) {
+                System.err.println("HERA I AM" + m);
+                mvp.move = m;
+            }
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
             this.env.undo_move(state, m);

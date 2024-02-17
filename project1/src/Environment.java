@@ -95,7 +95,7 @@ public class Environment {
         // Two steps forward and one step left/right
          if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
             // Left step
-            if (x - 1 > 0 && y+one_step > 0  && y+one_step < this.height-1 && state.board[y + two_steps][x - 1] == EMPTY) {
+            if (x - 1 > 0 && y+two_steps > 0  && y+two_steps < this.height-1 && state.board[y + two_steps][x - 1] == EMPTY) {
                 moves.add(new Move(x, y, x - 1, y + two_steps));
 //              Check is new move is most advanced
                 if (state.white_turn && most_advanced_white < y+two_steps) {
@@ -106,7 +106,7 @@ public class Environment {
                 }
             }
             // Right step
-            if (x < this.width - 1 && y+one_step > 0  && y+one_step < this.height-1 && state.board[y + two_steps][x + 1] == EMPTY) {
+            if (x < this.width - 1 && y+two_steps > 0  && y+two_steps < this.height-1 && state.board[y + two_steps][x + 1] == EMPTY) {
                 moves.add(new Move(x, y, x + 1, y + two_steps));
             }
         }

@@ -23,6 +23,8 @@ public class MyAgent implements Agent {
 		
     }
 
+	
+
 	// lastMove is null the first time nextAction gets called (in the initial state)
     // otherwise it contains the coordinates x1,y1,x2,y2 of the move that the last player did
     public String nextAction(int[] lastMove) {
@@ -40,6 +42,8 @@ public class MyAgent implements Agent {
 			this.env.move(this.env.current_state, new Move(x1, y1, x2, y2).sub());
     		
     	}
+
+
 		
     	// update turn (above that line it myTurn is still for the previous state)
 		myTurn = !myTurn;

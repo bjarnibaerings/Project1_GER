@@ -56,11 +56,12 @@ public class MyAgent implements Agent {
 			Move firstMove = moves.get(0);
 			firstMove.add();
 
-			Move bestMove;
-			algorithm.search(this.env);
+			//Move bestMove;
+			//algorithm.search(this.env);
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
 			System.out.println(this.env.current_state);
+			System.out.println("HERUSITIC");
 			System.out.println(this.env.heruistic());
 			return firstMove.toString();
 		} else {

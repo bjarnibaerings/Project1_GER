@@ -32,7 +32,7 @@ public class Environment {
         }
 
         // terminal state
-       return ((most_advanced_black-1)-(height-most_advanced_white));
+       return ((most_advanced_black_2-1)-(height-most_advanced_white_2));
     }
 
 
@@ -147,10 +147,9 @@ public class Environment {
 
     // get most advanced piece for white or black
     public int get_most_advanced_piece(State state, char friendly){
-
         if (friendly == 'W') {
             // start at the top (BLACK) and go down the board
-            for(int y = height; y > 0; y--){
+            for(int y = height-1; y > 0; y--){
                 for(int x = 0; x < this.width; x++){
                     if (state.board[y][x] == friendly ) {
                         return y;

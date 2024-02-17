@@ -17,7 +17,7 @@ public class Environment {
     }
 
     // Heuristic function
-    private int heuristic(){
+    public int heuristic(){
         // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         if (most_advanced_white == height-1) {
             return 100;
@@ -25,7 +25,6 @@ public class Environment {
         if (most_advanced_black == 1) {
             return -100;
         }
-        // Make if draw statement???
 
         // terminal state
        return ((most_advanced_black-1)-(height-most_advanced_white));

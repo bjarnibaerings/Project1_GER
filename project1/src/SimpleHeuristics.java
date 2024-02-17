@@ -14,18 +14,18 @@ public class SimpleHeuristics implements Heuristics {
         }
         
         int most_advanced_black_2 = get_most_advanced_piece(current_state, BLACK);
-        if (most_advanced_black_2 == 1) {
+        if (most_advanced_black_2 == 0) {
             return -100;
         }
 
         // terminal state
-       return ((most_advanced_black_2-1)-(env.height-most_advanced_white_2));
+        return (this.env.height - most_advanced_black_2) - (env.height - most_advanced_white_2);
     }
 
     private int get_most_advanced_piece(State state, char friendly){
         if (friendly == 'W') {
             // start at the top (BLACK) and go down the board
-            for(int y = env.height-1; y > 0; y--){
+            for(int y = env.height-1; y >= 0; y--){
                 for(int x = 0; x < this.env.width; x++){
                     if (state.board[y][x] == friendly ) {
                         return y;
@@ -34,7 +34,7 @@ public class SimpleHeuristics implements Heuristics {
             }
         }
         // if black
-        // start at the bottem (WHITE) and go UP the board
+        // start at the bottom (WHITE) and go UP the board
         for(int y = 0; y < env.height; y++){
             for(int x = 0; x < env.width; x++){
                 if (state.board[y][x] == friendly ) {
@@ -42,7 +42,7 @@ public class SimpleHeuristics implements Heuristics {
                 }
             }
         }
-        // need to have a return 
+        // need to have a return
         return 0;
     }
 }

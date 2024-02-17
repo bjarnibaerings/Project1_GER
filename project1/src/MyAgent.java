@@ -8,7 +8,7 @@ public class MyAgent implements Agent {
 	private boolean myTurn; // whether it is this agent's turn or not
 	private int width, height; // dimensions of the board
 	private Environment env;
-	
+	private SearchAlgorithm algorithm;
 	/*
 		init(String role, int playclock) is called once before you have to select the first action. Use it to initialize the agent. role is either "white" or "black" and playclock is the number of seconds after which nextAction must return.
 	*/
@@ -20,7 +20,10 @@ public class MyAgent implements Agent {
 		this.height = height;
 		// TODO: add your own initialization code here
 		this.env = new Environment(width, height);
-		
+		this.algorithm = new AlphaBetaSearch();
+		this.algorithm.init(new SimpleHeuristics());
+		// Heuristic variable
+		// Alphabeta varible???
     }
 
 	// lastMove is null the first time nextAction gets called (in the initial state)
@@ -35,8 +38,8 @@ public class MyAgent implements Agent {
     			roleOfLastPlayer = "black";
     		}
    			System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
-    		// TODO: 1. update your internal world model according to the action that was just executed
-			// sub() removes 0 to convert move from Boardspace to ProgramSpace
+    		// Update the internal world model according to the action that was just executed
+			// sub() removes 0 to convert move from BoardSpace to ProgramSpace
 			this.env.move(this.env.current_state, new Move(x1, y1, x2, y2).sub());
     		
     	}
@@ -48,6 +51,9 @@ public class MyAgent implements Agent {
 			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
 			Move firstMove = moves.get(0);
 			firstMove.add();
+
+			Move bestMove;
+			algorithm.search(this.env);
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
 			System.out.println(this.env.current_state);
@@ -62,5 +68,6 @@ public class MyAgent implements Agent {
 	public void cleanup() {
 		// TODO: cleanup so that the agent is ready for the next match
 		this.env = null;
+		this.algorithm = null;
 	}
 }

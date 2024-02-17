@@ -61,7 +61,7 @@ public class MyAgent implements Agent {
 			// this needs to be replaced with the actual best move.
 			// Move best_move = get_best_move();
 			System.out.println(this.env.current_state);
-			System.out.println(this.env.heuristic());
+			System.out.println(this.env.heruistic());
 			return firstMove.toString();
 		} else {
 			return "noop";

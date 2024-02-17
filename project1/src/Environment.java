@@ -17,12 +17,16 @@ public class Environment {
         this.current_state = new State(width, height);
     }
 
-    // Heuristic function
-    public int heuristic(){
+    // heristic function
+    public int heruistic(){
+        
+        int most_advanced_white_2 = get_most_advanced_piece(current_state, WHITE);
         // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         if (most_advanced_white == height-1) {
             return 100;
         }
+        
+        int most_advanced_black_2 = get_most_advanced_piece(current_state, BLACK);
         if (most_advanced_black == 1) {
             return -100;
         }
@@ -139,6 +143,32 @@ public class Environment {
                 most_advanced_black = y+two_steps;
             }
         }
+    }
+
+    // get most advanced piece for white or black
+    public int get_most_advanced_piece(State state, char friendly){
+
+        if (friendly == 'W') {
+            // start at the top (BLACK) and go down the board
+            for(int y = height; y > 0; y--){
+                for(int x = 0; x < this.width; x++){
+                    if (state.board[y][x] == friendly ) {
+                        return y;
+                    }
+                }
+            }
+        }
+        // if black
+        // start at the bottem (WHITE) and go UP the board
+        for(int y = height; y < this.height; y++){
+            for(int x = 0; x < this.width; x++){
+                if (state.board[y][x] == friendly ) {
+                    return y;
+                }
+            }
+        }
+        // need to have a return 
+        return 0;
     }
 
     public ArrayList<Move> get_legal_moves(State state){

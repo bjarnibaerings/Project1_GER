@@ -25,7 +25,8 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     // conjunction with alpha-beta pruning.
     //
     private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta) {
-        // TODO: Store the best move to return
+        // Initialize value as 0 since a draw state is reached if there are no moves to check
+        // (and value would never get reassigned)
         double value = 0;
         ArrayList<Move> legalMoves = this.env.get_legal_moves(state);
         Move bestMove = null;
@@ -33,29 +34,26 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
         if (depth <= 0 || legalMoves.isEmpty()) {
             mvp.value = this.heuristic.eval(state, this.env);
-//            System.err.println(mvp.value + " : " + mvp.move);
+            System.err.println("No Moves: " + mvp.value + " : " + mvp.move);
             return mvp;
         }
-
         double best_value = Double.NEGATIVE_INFINITY;
-        // Initialize value as 0 since a draw state is reached if there are no moves to check
-        // (and value would never get reassigned)
 
 //        System.out.println("Currently on depth: " + depth);
         for (Move m : legalMoves) {
             this.nb_expansions++;
             // Perform the move on the state to check successor nodes
             this.env.move(state, m);
+
             // Switch and negate bounds when moving into depth of next move
             mvp = alpha_beta(depth - 1, state, -beta, -alpha);
             mvp.value = -mvp.value;
 
-            this.env.undo_move(state, m);
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
+            this.env.undo_move(state, m);
 
             if (mvp.value > best_value) {
-//              best_value = Math.max(value, best_value);
                 // Update the best value and the best move
                 best_value = mvp.value;
                 bestMove = m;

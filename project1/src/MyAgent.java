@@ -58,11 +58,10 @@ public class MyAgent implements Agent {
 
 			// Get best move
 			Move bestMove = algorithm.search(this.env);
-
-			// this needs to be replaced with the actual best move.
-			// Move best_move = get_best_move();
+			// Transfer from ProgramSpace to BoardSpace
+			bestMove.add();
 //			System.out.println(this.env.current_state);
-//			System.out.println(this.env.heruistic());
+
 			return bestMove.toString();
 		} else {
 			return "noop";

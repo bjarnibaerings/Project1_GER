@@ -7,17 +7,25 @@ public class SimpleHeuristics implements Heuristics {
 
     public double eval(State current_state, Environment env) {
         this.env = env;
+        // Get position of most advanced pieces
         int most_advanced_white = get_most_advanced_piece(current_state, WHITE);
-        // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
-        if (most_advanced_white == env.height-1) {
+        int most_advanced_black = get_most_advanced_piece(current_state, BLACK);
+
+        // Check if move is a victory move
+        boolean white_win_condition = most_advanced_white == env.height-1;
+        boolean black_win_condition = most_advanced_black == 0;
+
+        // White reaches end before black
+        if (white_win_condition && !black_win_condition) {
             return 100;
         }
-        
-        int most_advanced_black = get_most_advanced_piece(current_state, BLACK);
-        if (most_advanced_black == 0) {
+
+        // Black reaches end before white
+        if (black_win_condition && !white_win_condition) {
             return -100;
         }
 
+        // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         // terminal state
         return (this.env.height - most_advanced_black) - ((this.env.height - 1) - most_advanced_white);
     }

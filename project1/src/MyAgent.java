@@ -48,22 +48,13 @@ public class MyAgent implements Agent {
     		
     	}
 
-
-		
     	// update turn (above that line it myTurn is still for the previous state)
 		myTurn = !myTurn;
 		if (myTurn) {
-			// TODO: 2. run alpha-beta search to determine the best move
-//			ArrayList<Move> moves = this.env.get_legal_moves(this.env.current_state);
-//			Move firstMove = moves.get(0);
-//			firstMove.add();
-
 			// Get best move
 			Move bestMove = algorithm.search(this.env);
 			// Transfer from ProgramSpace to BoardSpace
 			bestMove.add();
-//			System.out.println(this.env.current_state);
-
 			return bestMove.toString();
 		} else {
 			return "noop";

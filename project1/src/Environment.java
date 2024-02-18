@@ -34,7 +34,6 @@ public class Environment {
         // Set the step variables, > 0 for white and < 0 for black
         int one_step = state.white_turn ? 1 : -1;
         int two_steps = state.white_turn ? 2 : -2;
-
         /*
         * Order move generation based on the which moves are most likely to give the best
         * result. I.e. a diagonal "kill" move is probably more beneficial than moving
@@ -47,14 +46,15 @@ public class Environment {
 
         // Diagonal (capture) is opponent there ?
         // Diagonal right
-        if (x+1 < this.width - 1 && y+one_step > 0 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
+        if (x < this.width - 1 && y+one_step > 0 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
+//            System.out.println("DIAGONAL RIGHT");
             moves.add(new Move(x, y, x+1, y+one_step));
         }
         // Diagonal left
-        if (x-1 > 0 && y+one_step > 0  && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
+        if (x > 0 && y+one_step > 0  && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
+//            System.out.println("DIAGONAL LEFT");
             moves.add(new Move(x, y, x-1, y+one_step));
         }
-
 
         // Two steps forward and one step left/right
          if (can_move_n_steps_forward(state, y, 2, this.height-3)) {
@@ -68,20 +68,14 @@ public class Environment {
             }
         }
 
-
         // One step forward and two steps left/right
         if (can_move_right(x)) {
-            //System.err.println(this.width);
-            //System.err.println(x);
             if (x <= this.width-2 && y+one_step >= 0 && y+one_step < this.height-1 && state.board[y+one_step][x+2] == EMPTY) {
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
         }
 
         if (can_move_left(x)) {
-            //System.err.println(this.width);
-            //System.err.println(x);
-
             if (x-2 > 0 && y+one_step > 0 && y+one_step < this.height-1 && state.board[y+one_step][x-2] == EMPTY) {
                 moves.add(new Move(x, y, x-2, y+one_step));
             }

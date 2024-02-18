@@ -13,7 +13,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     public Move search(Environment env) {
         this.env = env;
         MoveValuePair bestMovePair = alpha_beta(10, this.env.current_state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        System.err.println(bestMovePair.value + " : " + bestMovePair.move);
+        System.err.println(bestMovePair);
         System.err.println("Expansions: " + this.nb_expansions);
 
         return bestMovePair.move;
@@ -23,7 +23,6 @@ public class AlphaBetaSearch implements SearchAlgorithm{
     // TODO: Check whether state can be stored as class variable instead of passing it down
     // Finds the best move for each player by utilizing the Minimax algorithm in
     // conjunction with alpha-beta pruning.
-    //
     private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta) {
         // Initialize value as 0 since a draw state is reached if there are no moves to check
         // (and value would never get reassigned)
@@ -34,7 +33,6 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
         if (depth <= 0 || legalMoves.isEmpty()) {
             mvp.value = this.heuristic.eval(state, this.env);
-//            System.err.println("No Moves: " + mvp.value + " : " + mvp.move);
             return mvp;
         }
         double best_value = Double.NEGATIVE_INFINITY;
@@ -47,8 +45,8 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
             // Switch and negate bounds when moving into depth of next move
             mvp = alpha_beta(depth - 1, state, -beta, -alpha);
-
             mvp.value = -mvp.value;
+
             if (bestMove == null) {
                 bestMove = m;
             }
@@ -61,7 +59,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
                 // Update the best value and the best move
                 best_value = mvp.value;
                 bestMove = m;
-                mvp.move = m;
+                mvp.move = bestMove;
             }
             if (best_value > alpha) {
                 // Adjust the lower bound
@@ -74,7 +72,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
         mvp.value = best_value;
         mvp.move = bestMove;
-//        System.err.println("In abcx " + mvp.value + " : " + mvp.move);
+//        System.err.println(mvp);
         return mvp;
     }
 }

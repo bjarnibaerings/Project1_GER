@@ -6,9 +6,12 @@ public class MoveValuePair {
         this.move = move;
         this.value = value;
     }
-
     public MoveValuePair negate() {
         this.value = -this.value;
         return this;
+    }
+
+    public String toString() {
+        return "MoveValuePair: (" + this.move.toString() + " : " + this.value + ")";
     }
 }

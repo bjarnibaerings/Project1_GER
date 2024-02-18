@@ -1,31 +1,54 @@
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
 public class AlphaBetaSearch implements SearchAlgorithm{
     private Heuristics heuristic;
     private Environment env;
-//    public Move bestMove;
+    private Move current_best_move;
     public int nb_expansions = 0;
-
+    private long start_time;
+    private int play_clock;
     public void init(Heuristics heuristic) {
         this.heuristic = heuristic;
     }
 
-    public Move search(Environment env) {
+    public Move search(Environment env, int play_clock) {
         this.env = env;
-        MoveValuePair bestMovePair = alpha_beta(10, this.env.current_state, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        System.err.println(bestMovePair);
-        System.err.println("Expansions: " + this.nb_expansions);
+        this.play_clock = play_clock * 1000; // Convert from seconds to milliseconds
+        int depth = 8;
+        boolean top_level_iteration = true;
+        try {
+            this.start_time = System.currentTimeMillis();
+            MoveValuePair bestMovePair = alpha_beta(
+                    depth,
+                    this.env.current_state,
+                    Double.NEGATIVE_INFINITY,
+                    Double.POSITIVE_INFINITY,
+                    top_level_iteration
+            );
+            System.err.println(bestMovePair);
+            System.err.println("Expansions: " + this.nb_expansions);
 
-        return bestMovePair.move;
+            return bestMovePair.move;
+        } catch (Exception TimeoutException) {
+            System.err.println("OUT OF TIME: " + current_best_move);
+            return current_best_move;
+        }
     }
 
 
     // TODO: Check whether state can be stored as class variable instead of passing it down
     // Finds the best move for each player by utilizing the Minimax algorithm in
     // conjunction with alpha-beta pruning.
-    private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta) {
+    private MoveValuePair alpha_beta(int depth, State state, double alpha, double beta, boolean top_level) throws TimeoutException {
+        // Check whether search has run put of time
+        if (System.currentTimeMillis() - this.start_time >= this.play_clock) {
+            throw new TimeoutException("playclock ran out");
+        }
+
         // Initialize value as 0 since a draw state is reached if there are no moves to check
         // (and value would never get reassigned)
+
         double value = 0;
         ArrayList<Move> legalMoves = this.env.get_legal_moves(state);
         Move bestMove = null;
@@ -43,8 +66,9 @@ public class AlphaBetaSearch implements SearchAlgorithm{
             // Perform the move on the state to check successor nodes
             this.env.move(state, m);
 
+            // Send in false to only store best moves from the top-level state
             // Switch and negate bounds when moving into depth of next move
-            mvp = alpha_beta(depth - 1, state, -beta, -alpha);
+            mvp = alpha_beta(depth - 1, state, -beta, -alpha, false);
             mvp.value = -mvp.value;
 
             if (bestMove == null) {
@@ -60,6 +84,9 @@ public class AlphaBetaSearch implements SearchAlgorithm{
                 best_value = mvp.value;
                 bestMove = m;
                 mvp.move = bestMove;
+                if (top_level) {
+                    current_best_move = bestMove;
+                }
             }
             if (best_value > alpha) {
                 // Adjust the lower bound

@@ -51,8 +51,10 @@ public class MyAgent implements Agent {
     	// update turn (above that line it myTurn is still for the previous state)
 		myTurn = !myTurn;
 		if (myTurn) {
+			Move bestMove;
 			// Get best move
-			Move bestMove = algorithm.search(this.env);
+			bestMove = algorithm.search(this.env, this.playclock);
+
 			// Transfer from ProgramSpace to BoardSpace
 			bestMove.add();
 			return bestMove.toString();

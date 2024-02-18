@@ -4,6 +4,7 @@ public class BetterHeuristics implements Heuristics {
     static final char BLACK = 'B';
     static final char WHITE = 'W';
     static final char EMPTY = ' ';
+    static final int piece_value = 3;
     private int most_advanced_black_pos, most_advanced_white_pos;
     private int nb_black_pieces, nb_white_pieces;
 
@@ -33,7 +34,10 @@ public class BetterHeuristics implements Heuristics {
         }
 
         // Minus in front, to properly calculate score for relevant side
-        move_score = -((most_advanced_black_pos - 1) - most_advanced_white_pos);
+        double black_score = nb_black_pieces * piece_value + (most_advanced_black_pos - 1);
+        double white_score = nb_white_pieces * piece_value + most_advanced_white_pos;
+//        move_score = -((most_advanced_black_pos - 1) - most_advanced_white_pos);
+        move_score = black_score - white_score;
         // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         // terminal state
         return move_score;

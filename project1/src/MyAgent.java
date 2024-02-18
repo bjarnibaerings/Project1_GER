@@ -21,9 +21,9 @@ public class MyAgent implements Agent {
 		// TODO: add your own initialization code here
 		this.env = new Environment(width, height);
 		this.algorithm = new AlphaBetaSearch();
-		this.algorithm.init(new SimpleHeuristics());
-		// Heuristic variable
-		// Alphabeta varible???
+		Heuristics simpleAlgo = new SimpleHeuristics();
+		Heuristics betterAlgo = new BetterHeuristics();
+		this.algorithm.init(betterAlgo);
     }
 
 	
@@ -42,7 +42,9 @@ public class MyAgent implements Agent {
    			System.out.println(roleOfLastPlayer + " moved from " + x1 + "," + y1 + " to " + x2 + "," + y2);
     		// Update the internal world model according to the action that was just executed
 			// sub() removes 0 to convert move from BoardSpace to ProgramSpace
-			this.env.move(this.env.current_state, new Move(x1, y1, x2, y2).sub());
+			Move m = new Move(x1, y1, x2, y2);
+			m.sub();
+			this.env.move(this.env.current_state, m);
     		
     	}
 

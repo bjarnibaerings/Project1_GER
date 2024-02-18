@@ -4,15 +4,15 @@ public class SimpleHeuristics implements Heuristics {
     static final char BLACK = 'B';
     static final char WHITE = 'W';
     static final char EMPTY = ' ';
-
     public double eval(State current_state, Environment env) {
         this.env = env;
+        double move_score;
         // Get position of most advanced pieces
         int most_advanced_white = get_most_advanced_piece(current_state, WHITE);
         int most_advanced_black = get_most_advanced_piece(current_state, BLACK);
 
         // Check if move is a victory move
-        boolean white_win_condition = most_advanced_white == env.height-1;
+        boolean white_win_condition = most_advanced_white == this.env.height-1;
         boolean black_win_condition = most_advanced_black == 0;
 
         // White reaches end before black
@@ -24,10 +24,10 @@ public class SimpleHeuristics implements Heuristics {
         if (black_win_condition && !white_win_condition) {
             return -100;
         }
-
+        move_score = (most_advanced_black - 1) - ((this.env.height - 1) - most_advanced_white);
         // distance of most advanced black piece to row 1> - <distance of most advanced white piece to row H>
         // terminal state
-        return (this.env.height - most_advanced_black) - ((this.env.height - 1) - most_advanced_white);
+        return move_score;
     }
 
     private int get_most_advanced_piece(State state, char friendly){

@@ -34,7 +34,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
         if (depth <= 0 || legalMoves.isEmpty()) {
             mvp.value = this.heuristic.eval(state, this.env);
-            System.err.println("No Moves: " + mvp.value + " : " + mvp.move);
+//            System.err.println("No Moves: " + mvp.value + " : " + mvp.move);
             return mvp;
         }
         double best_value = Double.NEGATIVE_INFINITY;
@@ -47,7 +47,11 @@ public class AlphaBetaSearch implements SearchAlgorithm{
 
             // Switch and negate bounds when moving into depth of next move
             mvp = alpha_beta(depth - 1, state, -beta, -alpha);
+
             mvp.value = -mvp.value;
+            if (bestMove == null) {
+                bestMove = m;
+            }
 
             // Undo the move to revert the current state to its original version
             // and check the other moves from the current state
@@ -57,7 +61,7 @@ public class AlphaBetaSearch implements SearchAlgorithm{
                 // Update the best value and the best move
                 best_value = mvp.value;
                 bestMove = m;
-
+                mvp.move = m;
             }
             if (best_value > alpha) {
                 // Adjust the lower bound

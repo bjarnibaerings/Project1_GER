@@ -6,8 +6,6 @@ public class Environment {
     static final char BLACK = 'B';
     static final char WHITE = 'W';
     static final char EMPTY = ' ';
-    int most_advanced_white = 1; // Second row of white
-    int most_advanced_black = height - 2; // Second row of black
 
     // Constructor
     public Environment(int width, int height){
@@ -37,7 +35,6 @@ public class Environment {
         int one_step = state.white_turn ? 1 : -1;
         int two_steps = state.white_turn ? 2 : -2;
 
-
         /*
         * Order move generation based on the which moves are most likely to give the best
         * result. I.e. a diagonal "kill" move is probably more beneficial than moving
@@ -52,24 +49,10 @@ public class Environment {
         // Diagonal right
         if (x+1 < this.width - 1 && y+one_step > 0 && y+one_step < this.height && state.board[y+one_step][x+1] == opponent) {
             moves.add(new Move(x, y, x+1, y+one_step));
-//              Check is new move is most advanced
-            if (state.white_turn && most_advanced_white < y+one_step) {
-                most_advanced_white = y+one_step;
-            }
-            else if (!state.white_turn && most_advanced_black > y+one_step) {
-                most_advanced_black = y+one_step;
-            }
         }
         // Diagonal left
         if (x-1 > 0 && y+one_step > 0  && y+one_step < this.height && state.board[y+one_step][x-1] == opponent) {
             moves.add(new Move(x, y, x-1, y+one_step));
-//              Check is new move is most advanced
-            if (state.white_turn && most_advanced_white < y+one_step) {
-                most_advanced_white = y+one_step;
-            }
-            else if (!state.white_turn && most_advanced_black > y+one_step) {
-                most_advanced_black = y+one_step;
-            }
         }
 
 
@@ -78,13 +61,6 @@ public class Environment {
             // Left step
             if (x - 1 > 0 && y+two_steps > 0  && y+two_steps < this.height-1 && state.board[y + two_steps][x - 1] == EMPTY) {
                 moves.add(new Move(x, y, x - 1, y + two_steps));
-//              Check is new move is most advanced
-                if (state.white_turn && most_advanced_white < y+two_steps) {
-                    most_advanced_white = y+two_steps;
-                }
-                else if (!state.white_turn && most_advanced_black > y+two_steps) {
-                    most_advanced_black = y+two_steps;
-                }
             }
             // Right step
             if (x < this.width - 1 && y+two_steps > 0  && y+two_steps < this.height-1 && state.board[y + two_steps][x + 1] == EMPTY) {
@@ -100,13 +76,6 @@ public class Environment {
             if (x <= this.width-2 && y+one_step >= 0 && y+one_step < this.height-1 && state.board[y+one_step][x+2] == EMPTY) {
                 moves.add(new Move(x, y, x+2, y+one_step));
             }
-//              Check is new move is most advanced
-            if (state.white_turn && most_advanced_white < y+two_steps) {
-                most_advanced_white = y+two_steps;
-            }
-            else if (!state.white_turn && most_advanced_black > y+two_steps) {
-                most_advanced_black = y+two_steps;
-            }
         }
 
         if (can_move_left(x)) {
@@ -115,13 +84,6 @@ public class Environment {
 
             if (x-2 > 0 && y+one_step > 0 && y+one_step < this.height-1 && state.board[y+one_step][x-2] == EMPTY) {
                 moves.add(new Move(x, y, x-2, y+one_step));
-            }
-//              Check is new move is most advanced
-            if (state.white_turn && most_advanced_white < y+two_steps) {
-                most_advanced_white = y+two_steps;
-            }
-            else if (!state.white_turn && most_advanced_black > y+two_steps) {
-                most_advanced_black = y+two_steps;
             }
         }
     }

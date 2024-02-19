@@ -17,10 +17,11 @@ public class BetterHeuristics implements Heuristics {
         nb_white_pieces = nb_black_pieces = 0;
         // Update all relevant values
         update_board_information(current_state);
+        // Update the value of most advanced black to count spaces from black end rather than distance from white end
         most_advanced_black_pos = this.env.height - 1 - most_advanced_black_pos;
 
         // Check if move is a victory move
-        boolean black_win_condition = most_advanced_black_pos == 0;
+        boolean black_win_condition = most_advanced_black_pos == this.env.height-1;
         boolean white_win_condition = most_advanced_white_pos == this.env.height-1;
 
         // White reaches end before black
